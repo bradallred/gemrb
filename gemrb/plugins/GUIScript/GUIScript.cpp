@@ -888,7 +888,7 @@ static PyObject* GemRB_Table_GetValue(PyObject* self, PyObject* args)
 	}
 
 	Holder<TableMgr> tm = GetTable(self);
-	ABORT_IF_NULL(tm);
+	ABORT_IF_NULL(tm.get());
 
 	const char* ret;
 	if (PyObject_TypeCheck( row, &PyString_Type )) {
@@ -961,7 +961,7 @@ static PyObject* GemRB_Table_FindValue(PyObject* self, PyObject* args)
 	}
 
 	Holder<TableMgr> tm = GetTable(self);
-	ABORT_IF_NULL(tm);
+	ABORT_IF_NULL(tm.get());
 
 	if (col == -1) {
 		return PyInt_FromLong(tm->FindTableValue(colname, Value, start));
@@ -996,7 +996,7 @@ static PyObject* GemRB_Table_GetRowIndex(PyObject* self, PyObject* args)
 	PARSE_ARGS2( args, "Os", &self, &rowname );
 
 	Holder<TableMgr> tm = GetTable(self);
-	ABORT_IF_NULL(tm);
+	ABORT_IF_NULL(tm.get());
 
 	int row = tm->GetRowIndex( rowname );
 	//no error if the row doesn't exist
@@ -1027,7 +1027,7 @@ static PyObject* GemRB_Table_GetRowName(PyObject* self, PyObject* args)
 	PARSE_ARGS2( args, "Oi", &self, &row );
 
 	Holder<TableMgr> tm = GetTable(self);
-	ABORT_IF_NULL(tm);
+	ABORT_IF_NULL(tm.get());
 
 	const char* str = tm->GetRowName( row );
 	ABORT_IF_NULL(str);
@@ -1059,7 +1059,7 @@ static PyObject* GemRB_Table_GetColumnIndex(PyObject* self, PyObject* args)
 	PARSE_ARGS2( args, "Os", &self, &colname );
 
 	Holder<TableMgr> tm = GetTable(self);
-	ABORT_IF_NULL(tm);
+	ABORT_IF_NULL(tm.get());
 
 	int col = tm->GetColumnIndex( colname );
 	//no error if the column doesn't exist
@@ -1090,7 +1090,7 @@ static PyObject* GemRB_Table_GetColumnName(PyObject* self, PyObject* args)
 	PARSE_ARGS2( args, "Oi", &self, &col );
 
 	Holder<TableMgr> tm = GetTable(self);
-	ABORT_IF_NULL(tm);
+	ABORT_IF_NULL(tm.get());
 
 	const char* str = tm->GetColumnName( col );
 	ABORT_IF_NULL(str);
@@ -1119,7 +1119,7 @@ static PyObject* GemRB_Table_GetRowCount(PyObject* self, PyObject* args)
 	PARSE_ARGS1( args, "O", &self );
 
 	Holder<TableMgr> tm = GetTable(self);
-	ABORT_IF_NULL(tm);
+	ABORT_IF_NULL(tm.get());
 
 	return PyInt_FromLong( tm->GetRowCount() );
 }
@@ -1148,7 +1148,7 @@ static PyObject* GemRB_Table_GetColumnCount(PyObject* self, PyObject* args)
 	PARSE_ARGS2( args, "O|i", &self, &row );
 
 	Holder<TableMgr> tm = GetTable(self);
-	ABORT_IF_NULL(tm);
+	ABORT_IF_NULL(tm.get());
 
 	return PyInt_FromLong( tm->GetColumnCount(row) );
 }
@@ -2249,7 +2249,7 @@ static PyObject* GemRB_View_SetBackground(PyObject* self, PyObject* args)
 
 	if (ResRef[0]) {
 		ResourceHolder<ImageMgr> im(ResRef);
-		if (im == NULL) {
+		if (im.get() == NULL) {
 			return RuntimeError("Picture resource not found!\n");
 		}
 
@@ -3656,7 +3656,7 @@ static PyObject* GemRB_Button_SetPLT(PyObject* self, PyObject* args)
 
 	ResourceHolder<PalettedImageMgr> im(ResRef);
 
-	if (im == NULL ) {
+	if (im.get() == NULL ) {
 		AnimationFactory* af = ( AnimationFactory* )
 			gamedata->GetFactoryResource( ResRef,
 			IE_BAM_CLASS_ID, IE_NORMAL );
