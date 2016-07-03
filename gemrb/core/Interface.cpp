@@ -1498,7 +1498,7 @@ int Interface::Init(InterfaceConfig* config)
 
 	Log(MESSAGE, "Core", "Initializing GUI Script Engine...");
 	guiscript = PluginHolder<ScriptEngine>(IE_GUI_SCRIPT_CLASS_ID);
-	if (guiscript == NULL) {
+	if (guiscript.get() == NULL) {
 		Log(FATAL, "Core", "Missing GUI Script Engine.");
 		return GEM_ERROR;
 	}
@@ -1618,7 +1618,7 @@ int Interface::Init(InterfaceConfig* config)
 
 	Log(MESSAGE, "Core", "Initializing Window Manager...");
 	guifact = PluginHolder<GUIFactory>(IE_CHU_CLASS_ID);
-	if (guifact == NULL) {
+	if (guifact.get() == NULL) {
 		Log(FATAL, "Core", "Failed to load GUIFactory.");
 		return GEM_ERROR;
 	}
@@ -1634,7 +1634,7 @@ int Interface::Init(InterfaceConfig* config)
 
 	Log(MESSAGE, "Core", "Starting up the Sound Driver...");
 	AudioDriver = ( Audio * ) PluginMgr::Get()->GetDriver(&Audio::ID, AudioDriverName.c_str());
-	if (AudioDriver == NULL) {
+	if (AudioDriver.get() == NULL) {
 		Log(FATAL, "Core", "Failed to load sound driver.");
 		return GEM_ERROR;
 	}
@@ -1812,7 +1812,7 @@ int Interface::Init(InterfaceConfig* config)
 
 	Log(MESSAGE, "Core", "Setting up the Console...");
 	Region frame(0, 0, 640, 25);
-	
+
 	Window* consoleWin = winmgr->MakeWindow(frame);
     Console* console = new Console(frame, consoleWin);
     console->SetCursor(GetCursorSprite());
@@ -2504,7 +2504,7 @@ Window* Interface::CreateWindow(unsigned short WindowID, const Region& frame, ch
 	Sprite2D* bg = NULL;
 	if (Background[0]) {
 		ResourceHolder<ImageMgr> mos(Background);
-		if (mos != NULL) {
+		if (mos.get() != NULL) {
 			bg = mos->GetSprite2D();
 		}
 	}
@@ -4265,7 +4265,7 @@ int Interface::SwapoutArea(Map *map)
 	}
 
 	PluginHolder<MapMgr> mm(IE_ARE_CLASS_ID);
-	if (mm == NULL) {
+	if (mm.get() == NULL) {
 		return -1;
 	}
 	int size = mm->GetStoredFileSize (map);
@@ -4299,7 +4299,7 @@ int Interface::WriteCharacter(const char *name, Actor *actor)
 		return -1;
 	}
 	PluginHolder<ActorMgr> gm(IE_CRE_CLASS_ID);
-	if (gm == NULL) {
+	if (gm.get() == NULL) {
 		return -1;
 	}
 
@@ -4330,7 +4330,7 @@ int Interface::WriteCharacter(const char *name, Actor *actor)
 int Interface::WriteGame(const char *folder)
 {
 	PluginHolder<SaveGameMgr> gm(IE_GAM_CLASS_ID);
-	if (gm == NULL) {
+	if (gm.get() == NULL) {
 		return -1;
 	}
 
@@ -4356,7 +4356,7 @@ int Interface::WriteGame(const char *folder)
 int Interface::WriteWorldMap(const char *folder)
 {
 	PluginHolder<WorldMapMgr> wmm(IE_WMP_CLASS_ID);
-	if (wmm == NULL) {
+	if (wmm.get() == NULL) {
 		return -1;
 	}
 
