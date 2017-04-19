@@ -106,7 +106,7 @@ Window* CHUImporter::GetWindow(ScriptingId wid) const
 	Sprite2D* bg = NULL;
 	if (BackGround == 1) {
 		ResourceHolder<ImageMgr> mos(MosFile);
-		if (mos != NULL) {
+		if (mos.get() != NULL) {
 			bg = mos->GetSprite2D();
 		}
 	}
