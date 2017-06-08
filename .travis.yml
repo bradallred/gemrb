@@ -35,12 +35,12 @@ addons:
     - libvorbis-dev
     - openssh-client
     - python-dev
-    - g++-4.9
+    - g++-5
     
     # not needed for building
     - gdb
     env:
-      - MATRIX_EVAL="CC=gcc-4.9 && CXX=g++-4.9"
+      - MATRIX_EVAL="CC=gcc-5 && CXX=g++-5"
 
   ssh_known_hosts: frs.sourceforge.net
 
